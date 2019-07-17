@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/gow-app" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/gow-bo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/gow-server" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/gow-tools" vcs="Git" />
+  </component>
+</project>

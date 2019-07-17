@@ -1,0 +1,9 @@
+老的那套：
+gow-alipay-accessibility 红包app，按键精灵类型
+gow-old  		 老后台不用了
+
+现在用的这套：
+gow-app       Xposed框架的，支付宝接口类型
+gow-bo        现在用的后台
+gow-server    新API服务
+gow-tools     二维码转换工具
