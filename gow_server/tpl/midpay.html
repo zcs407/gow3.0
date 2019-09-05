@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <meta charset=UTF-8>
+        <title>GOW-Midpay</title>
+        <style type=text/css>
+            ul, ol {
+          margin: 0;
+          padding: 0;
+          padding: 5px 0px;
+        }
+        </style>
+        <script>
+            var countdownTime = {{.OverTime}};
+            var intervalId = null;
+            var refreshIntervalId = null;
+            var refreshTime =  {{.RefreshTime}};
+            var diffTime = refreshTime - countdownTime;
+            if(diffTime < 0){
+                diffTime = 1;
+            }
+            intervalId = setInterval(function(){
+                countdownTime--;
+                if(countdownTime < 10)
+                    timeStr = "0"+countdownTime;
+                else
+                    timeStr = countdownTime;
+                document.getElementById("countdown").innerHTML = "距离二维码过期还剩："+timeStr+" 秒";
+                if (countdownTime == 0 && intervalId != null) {
+                    document.getElementById("alpayimg").src = "";
+                    clearInterval(intervalId);
+                    intervalId = null;
+                    document.getElementById("countdownMsg").innerHTML = "支付页面已失效，请重新获取";
+                    countdownRefresh();
+                }
+            },1000);
+            function countdownRefresh(){
+                document.getElementById("countdown").style.display = "none";
+                document.getElementById("countdownRefresh").style.display = "block";
+                if(diffTime < 10)
+                    timeStr = "0"+diffTime;
+                else
+                    timeStr = diffTime;
+                document.getElementById("countdownRefresh").innerHTML = "距离二维码可重新获取还剩："+timeStr+" 秒";
+                refreshIntervalId = setInterval(function(){
+                    diffTime--;
+                    if(diffTime < 10)
+                        timeStr = "0"+diffTime;
+                    else
+                        timeStr = diffTime;
+                    document.getElementById("countdownRefresh").innerHTML = "距离二维码可重新获取还剩："+timeStr+" 秒";
+                    if (diffTime == 0 && refreshIntervalId != null) {
+                        document.getElementById("refreshBtn").style.display = "block";
+                        document.getElementById("countdownRefresh").style.display = "none";
+                        clearInterval(refreshIntervalId);
+                        refreshIntervalId = null;
+                    }
+                },1000);
+            }
+
+            function refresh() {
+                window.location.reload();
+            }
+        </script>
+    </head>
+<body>
+    <div style="background-color: #fff;width: 600px;height: 450px;margin-left:auto;margin-right:auto;">
+      <div style="text-align:center;margin-bottom: -5%;">
+    <img src="images/logo.jpg" style="height: 100px;">
+    <h2 style="margin: 0px">充值流程</h2>
+    </div>
+    <br>
+        <div style="padding: 10px 20px">
+            <table border="0" style="border-radius:2px;">
+            <tr>
+            <td style="display: inline-block;width: 300px;letter-spacing: 1px">
+
+                <ul>
+                    <ol>1.向支付宝账号:<span id="account" class=zhanghao style="font-weight: bold"> {{.Account}} </span><br>
+                        (真实姓名:<label id="realname"> {{.RealName}} </label>)转账,也可以通过右侧扫一扫转账(注意:支付宝账号不定期更换,每笔充值前请确定核对订单信息)
+                    </ol>
+                    <ol>2.付款金额请填写:<span id="inputamount" class=amount style="font-weight: bold"> {{.Amount}} </span>元</ol>
+                    <ol><span id="countdown" class=remark style="color:#FF0000;">距离二维码过期还剩： {{.OverTime}} 秒</span></ol>
+                    <ol><span id="countdownMsg" class=remark style="font-weight: bold;font-color:#00FF00;"></span></ol>
+                    <ol><span id="countdownRefresh" class=remark style="color:#FF0000;display:none;"> 距离二维码可重新获取还剩：- 秒</span></ol>
+                    <ol><button id="refreshBtn" class="remark" onclick="refresh();" style="font-weight: bold;display: block;width: 200px;height: 40px;font-size: 18px;border-radius:  2px;display:none;">重新获取</button></ol>
+
+                </ul>
+            </td>
+            <td style="width: 200px;">
+                <img id="alpayimg" src="{{.Url}}" style="width: 200px;float: left;margin-right: 30px">
+            </td>
+        </tr>
+        </table>
+        </div>
+    </div>
+</body>
+</html>
